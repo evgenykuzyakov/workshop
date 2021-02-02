@@ -18,7 +18,7 @@ pub const NO_DEPOSIT: Balance = 0;
 
 pub const BUY_TOKENS_GAS: Gas = 5_000_000_000_000;
 pub const GET_LINES_GAS: Gas = 50_000_000_000_000;
-pub const BASE_DRAW_GAS: Gas = 30_000_000_000_000;
+pub const BASE_DRAW_GAS: Gas = 50_000_000_000_000;
 pub const GAS_FOR_RENDER_WITH: Gas = GET_LINES_GAS + 20_000_000_000_000;
 pub const GAS_PER_PIXEL: Gas = 50_000_000_000;
 
@@ -85,8 +85,22 @@ pub(crate) fn buy_avocado(near_amount: u32) -> Promise {
 }
 
 pub(crate) fn draw(pixels: Vec<SetPixelRequest>) -> Promise {
-    let gas = BASE_DRAW_GAS + (pixels.len() as u64) * GAS_PER_PIXEL;
-    ext_berryclub::draw(pixels, &BERRYCLUB_CONTRACT_ID.to_string(), NO_DEPOSIT, gas)
+    let mut board = [[b'.'; BOARD_WIDTH as usize]; BOARD_HEIGHT as usize];
+    for pixel in &pixels {
+        board[pixel.y as usize][pixel.x as usize] = b'X';
+    }
+    for line in &board {
+        env::log(line);
+    }
+    #[cfg(feature = "for_real")]
+    {
+        let gas = BASE_DRAW_GAS + (pixels.len() as u64) * GAS_PER_PIXEL;
+        ext_berryclub::draw(pixels, &BERRYCLUB_CONTRACT_ID.to_string(), NO_DEPOSIT, gas)
+    }
+    #[cfg(not(feature = "for_real"))]
+    {
+        Promise::new(env::current_account_id())
+    }
 }
 
 pub(crate) fn decode_board(lines: Vec<Base64VecU8>) -> Vec<Vec<u32>> {
