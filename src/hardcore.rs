@@ -1,3 +1,7 @@
+//! As part of the workshop you don't need to touch this contract.
+//! It has some hardcode stuff that is needed for you to have fun.
+//! But I'm glad you're looking for more.
+
 use crate::*;
 
 use near_sdk::borsh::{self, BorshDeserialize, BorshSerialize};
@@ -5,10 +9,6 @@ use near_sdk::borsh::{self, BorshDeserialize, BorshSerialize};
 use near_sdk::json_types::Base64VecU8;
 use near_sdk::serde::{Deserialize, Serialize};
 use near_sdk::{env, ext_contract, Balance, Gas};
-
-pub const BOARD_WIDTH: u32 = 50;
-pub const BOARD_HEIGHT: u32 = 50;
-pub const TOTAL_NUM_PIXELS: u32 = BOARD_WIDTH * BOARD_HEIGHT;
 
 pub type AccountIndex = u32;
 
@@ -75,27 +75,28 @@ trait BerryclubContract {
     fn draw(&mut self, pixels: Vec<SetPixelRequest>);
 }
 
-#[allow(dead_code)]
-pub(crate) fn buy_avocado(near_amount: u32) -> Promise {
-    ext_berryclub::buy_tokens(
-        &BERRYCLUB_CONTRACT_ID.to_string(),
-        Balance::from(near_amount) * 10u128.pow(24),
-        BUY_TOKENS_GAS,
-    )
-}
-
 pub(crate) fn draw(pixels: Vec<SetPixelRequest>) -> Promise {
     let mut board = [[b'.'; BOARD_WIDTH as usize]; BOARD_HEIGHT as usize];
-    for pixel in &pixels {
-        board[pixel.y as usize][pixel.x as usize] = b'X';
+    let mut unique_pixels = vec![];
+    for pixel in pixels {
+        if board[pixel.y as usize][pixel.x as usize] == b'.' {
+            board[pixel.y as usize][pixel.x as usize] = b'X';
+            unique_pixels.push(pixel);
+        }
     }
     for line in &board {
         env::log(line);
     }
+
     #[cfg(feature = "for_real")]
     {
-        let gas = BASE_DRAW_GAS + (pixels.len() as u64) * GAS_PER_PIXEL;
-        ext_berryclub::draw(pixels, &BERRYCLUB_CONTRACT_ID.to_string(), NO_DEPOSIT, gas)
+        let gas = BASE_DRAW_GAS + (unique_pixels.len() as u64) * GAS_PER_PIXEL;
+        ext_berryclub::draw(
+            unique_pixels,
+            &BERRYCLUB_CONTRACT_ID.to_string(),
+            NO_DEPOSIT,
+            gas,
+        )
     }
     #[cfg(not(feature = "for_real"))]
     {
@@ -119,6 +120,15 @@ pub(crate) fn decode_board(lines: Vec<Base64VecU8>) -> Vec<Vec<u32>> {
 
 #[near_bindgen]
 impl Contract {
+    #[cfg(feature = "for_real")]
+    pub fn buy_avocado(&mut self) -> Promise {
+        ext_berryclub::buy_tokens(
+            &BERRYCLUB_CONTRACT_ID.to_string(),
+            50 * 10u128.pow(24),
+            BUY_TOKENS_GAS,
+        )
+    }
+
     pub fn render(method_name: String) -> Promise {
         ext_berryclub::get_lines(
             (0..BOARD_HEIGHT).collect(),
@@ -133,4 +143,22 @@ impl Contract {
             env::prepaid_gas() - GAS_FOR_RENDER_WITH,
         ))
     }
+}
+
+#[cfg(not(target = "wasm32"))]
+#[cfg(test)]
+pub(crate) fn debug_print_pixels(pixels: &[SetPixelRequest]) -> Vec<String> {
+    let mut board = vec![vec![b'.'; BOARD_WIDTH as usize]; BOARD_HEIGHT as usize];
+    for pixel in pixels {
+        board[pixel.y as usize][pixel.x as usize] = b'X';
+    }
+    let board = board
+        .into_iter()
+        .map(|line| String::from_utf8(line.to_vec()).unwrap())
+        .collect::<Vec<_>>();
+    println!();
+    for (i, line) in board.iter().enumerate() {
+        println!("{:02} {}", i, line);
+    }
+    board
 }
