@@ -6,29 +6,29 @@ This is a workshop to basics of smart-contracts on NEAR Protocol.
 
 ### Install required tools
 
-* Install [Rustup](https://rustup.rs/):
+#### Install [Rustup](https://rustup.rs/):
 
 ```bash
 curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
 ```
 
-* Add wasm target to your toolchain:
+#### Add wasm target to your toolchain:
 
 ```bash
 rustup target add wasm32-unknown-unknown
 ```
 
-* Install `near-cli`
+#### Install `near-cli`
 
 See [`near-cli` installation docs](https://docs.near.org/docs/development/near-cli#installation)
 
-* Install `git`
+#### Install `git`
 
 See [installation guide](https://github.com/git-guides/install-git) from github.
 
 ### Prepare workshop repo and verify tools installation
 
-* Clone the workshop repository
+#### Clone the workshop repository
 
 ```bash
 git clone https://github.com/evgenykuzyakov/workshop
@@ -37,7 +37,7 @@ cd workshop
 
 It should clone the repository to a local folder `workshop`.
 
-* Compile the contract
+#### Compile the contract
 
 ```bash
 ./build.sh
@@ -55,22 +55,24 @@ If you have successfully installed Rust and `wasm32` target, then `./build.sh` s
     Finished release [optimized] target(s) in 43.13s
 ```
 
-* You can check that the contract is present in `res/berry_bot.wasm`
+#### You can check that the contract is present in `res/berry_bot.wasm`
 
 ```bash
 test res/berry_bot.wasm && echo "OK!" || echo "BAD :("
 ```
 
+I hope you see `OK!`
+
 ### Setup NEAR account
 
-* Register a new account on testnet.
+#### Register a new account on testnet.
 
 You can create a new account using [NEAR Testnet Wallet](https://wallet.testnet.near.org/)
 It'll create a new account for you on the NEAR Testnet. The full account ID will be something like `alice.testnet`
 
 As a `Security Method` for this workshop I'd recommend to use either `Recovery Phrase` or `Email Recovery`.
 
-* Authorize your account with `near-cli`
+#### Authorize your account with `near-cli`
 
 To allow using your account with `near-cli` you need to login from the terminal.
 ```bash
@@ -88,7 +90,7 @@ You should see something like this in the console:
 Logged in as [ alice.testnet ] with public key [ ed25519:HP3oxy... ] successfully
 ```
 
-* Store your account ID into local variable
+#### Store your account ID into local variable
 
 To help with this workshop let's store your account ID into `ACCOUNT_ID` variable in bash.
 Replace `<YOUR_ACCOUNT_ID>` with your actual account ID that you created in the wallet, e.g. `alice.testnet`.
@@ -97,7 +99,7 @@ Replace `<YOUR_ACCOUNT_ID>` with your actual account ID that you created in the 
 export ACCOUNT_ID=<YOUR_ACCOUNT_ID>
 ```
 
-* Verification
+#### Verification
 
 Let's verify that you've successfully created the account and added it to `near-cli`, by sending me 1 NEAR token on the testnet.
 
@@ -114,7 +116,7 @@ To see the transaction in the transaction explorer, please open this url in your
 https://explorer.testnet.near.org/transactions/FaCEqiEkKd9bWECKuSEaC2w6zxPkcdYNoe7gbaHyuZWb
 ```
 
-Congrats!
+**Congrats!**
 
 ## Part 1 - Fix my code
 
