@@ -1,6 +1,6 @@
 # Berry Club Bot Workshop
 
-This is a workshop to basics of smart-contracts on NEAR Protocol.
+This is a workshop to cover basics of NEAR Protocol smart-contracts written in Rust.
 
 ## Preparation
 
