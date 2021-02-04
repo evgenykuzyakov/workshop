@@ -6,10 +6,13 @@ This is a workshop to cover basics of NEAR Protocol smart-contracts written in R
 
 ### Install required tools
 
+NOTE: This process is for Unix-like system, e.g. Linux or Mac OS. Windows installation process might be different.
+
 #### Install [Rustup](https://rustup.rs/):
 
 ```bash
 curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
+source ~/.cargo/env
 ```
 
 #### Add wasm target to your toolchain:
@@ -58,10 +61,10 @@ If you have successfully installed Rust and `wasm32` target, then `./build.sh` s
 #### You can check that the contract is present in `res/berry_bot.wasm`
 
 ```bash
-test res/berry_bot.wasm && echo "OK!" || echo "BAD :("
+test res/berry_bot.wasm && echo "OK" || echo "BAD :("
 ```
 
-I hope you see `OK!`
+I hope you see `OK`
 
 ### Setup NEAR account
 
@@ -101,19 +104,22 @@ export ACCOUNT_ID=<YOUR_ACCOUNT_ID>
 
 #### Verification
 
-Let's verify that you've successfully created the account and added it to `near-cli`, by sending me 1 NEAR token on the testnet.
+Let's verify that you've successfully created the account and added it to `near-cli`.
 
 Run the following:
 ```bash
-near send $ACCOUNT_ID workshop.testnet 1
+near call --accountId=$ACCOUNT_ID workshop.testnet hello
 ```
 
 If it succeeded then you've successfully completed your account setup. You should see something like this:
 ```
-Sending 1 NEAR to workshop.testnet from test-12331.testnet
-Transaction Id FaCEqiEkKd9bWECKuSEaC2w6zxPkcdYNoe7gbaHyuZWb
+Scheduling a call: workshop.testnet.hello()
+Receipt: 5rKUqv4t9JVQryvyfrgrFr8R48iV4sFX7nD56KUv6Vhb
+	Log [workshop.testnet]: Hello, test-12331.testnet!
+Transaction Id 8D2L4AdhbZ3CqWXMpRURsyqUTNJaBJDcFQsN4W8vU4y7
 To see the transaction in the transaction explorer, please open this url in your browser
-https://explorer.testnet.near.org/transactions/FaCEqiEkKd9bWECKuSEaC2w6zxPkcdYNoe7gbaHyuZWb
+https://explorer.testnet.near.org/transactions/8D2L4AdhbZ3CqWXMpRURsyqUTNJaBJDcFQsN4W8vU4y7
+'Hello, test-12331.testnet!'
 ```
 
 **Congrats!**
