@@ -4,7 +4,7 @@ use crate::*;
 impl Contract {
     /// Renders a circle with a line.
     /// To call this method you need to call `render_circle`, e.g.
-    /// `render_circle '{"center_x": 10, "center_y": 20, "radius": 5, "color": 255}'`
+    /// `./call.sh render_circle '{"center_x": 10, "center_y": 20, "radius": 5, "color": 255}'`
     pub fn render_circle(
         &mut self,
         center_x: i32,

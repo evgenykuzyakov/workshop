@@ -4,7 +4,7 @@ use crate::*;
 impl Contract {
     /// This method requires the current board colors to compute then inverse colors.
     /// To call this method you need to call `render` and pass `method_name`, e.g.
-    /// `render '{"method_name": "invert_rect", "left": 20, "top": 10, "width": 20, "height": 20}'`
+    /// `./call.sh render '{"method_name": "invert_rect", "left": 20, "top": 10, "width": 20, "height": 20}'`
     /// This is because you first need to get the lines from the berryclub contract.
     ///
     /// `[callback] lines: Vec<Base64VecU8>` is required to get the current state of the board.

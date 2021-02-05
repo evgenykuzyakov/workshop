@@ -4,7 +4,7 @@ use crate::*;
 impl Contract {
     /// Renders a solid color filled rectangle.
     /// To call this method you need to call `render_rect`, e.g.
-    /// `render_rect '{"left": 10, "top": 20, "width": 10, "height": 5, "color": 16711680}'`
+    /// `./call.sh render_rect '{"left": 10, "top": 20, "width": 10, "height": 5, "color": 16711680}'`
     pub fn render_rect(
         &mut self,
         left: u32,

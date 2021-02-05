@@ -46,7 +46,7 @@ It should clone the repository to a local folder `workshop`.
 ./build.sh
 ```
 
-If you have successfully installed Rust and `wasm32` target, then `./build.sh` should compile the contract.
+If you have successfully installed Rust and `wasm32` target, then `./build.sh` should compile the contract into `res/berry_bot.wasm`.
 ```
    Compiling autocfg v1.0.0
    Compiling proc-macro2 v1.0.9
@@ -134,7 +134,7 @@ Run unit tests
 ./test.sh
 ```
 
-You'll see an failed test. E.g.
+You'll see a failed test. E.g.
 ```
 running 1 test
 test rect::tests::test_rect_complex ... FAILED
