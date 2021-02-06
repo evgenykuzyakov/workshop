@@ -46,7 +46,7 @@ It should clone the repository to a local folder `workshop`.
 #### Compile the contract
 
 ```bash
-build.bat
+win\build.bat
 ```
 
 If you have successfully installed Rust and `wasm32` target, then the `cargo build…` command should compile the contract into `res/berry_bot.wasm`.
@@ -140,7 +140,7 @@ Good thing, that I've added unit tests before I broke the code.
 
 Run unit tests
 ```bash
-test.bat
+win\test.bat
 ```
 
 You'll see a failed test. E.g.
@@ -222,7 +222,7 @@ To do this, you can use rectangle and circle primitives and later merge them int
 
 Run
 ```bash
-draw_art.bat
+win\draw_art.bat
 ```
 
 You should see a preview of the art. Right now it renders a target with three circles.
@@ -283,7 +283,7 @@ test art::tests::draw_art ... ok
 
 Now, open file `src/art.rs` and modify the implementation of method `internal_render_art` at line `26`.
 
-You can draw whatever you want and debug it by running `draw_art.bat`.
+You can draw whatever you want and debug it by running `win\draw_art.bat`.
 But note, that too many pixels might lead to performance issues.
 
 Once you are satisfied with your art preview, it's time to try it for real.
@@ -294,7 +294,7 @@ Once you are satisfied with your art preview, it's time to try it for real.
 
 You've modified the code to fix tests and implemented your art, so we need to rebuild.
 ```bash
-build.bat
+win\build.bat
 ```
 
 Every time you modify code of your contract you may want to recompile the contract.
@@ -310,7 +310,7 @@ To deploy a contract, we need to issue a transaction.
 I wrote a convenient script to deploy the contract to your account stored in `%ACCOUNT_ID%`.
 (All it does is `near deploy %ACCOUNT_ID% res\berry_bot.wasm`)
 ```bash
-deploy.bat
+win\deploy.bat
 ```
 
 You should see something like this:
@@ -403,19 +403,19 @@ https://explorer.testnet.near.org/transactions/ZWv4Ac2Qqvs8cA1CT1AHE6ovNXUGT7SCu
 
 You can also click the explorer link to see this on chain, e.g [Target](https://explorer.testnet.near.org/transactions/ZWv4Ac2Qqvs8cA1CT1AHE6ovNXUGT7SCuLiDQFmSqv3)
 
-There is a helper script that let you call methods on your contract easier `call.bat`.
+There is a helper script that let you call methods on your contract easier `win\call.bat`.
 ```bash
-call.bat <METHOD_NAME> <ARGS>
+win\call.bat <METHOD_NAME> <ARGS>
 ```
 
 An example of a command to render a red rectangle
 ```bash
-call.bat render_rect "{\"left\": 10, \"top\": 20, \"width\": 10, \"height\": 5, \"color\": 16711680}"
+win\call.bat render_rect "{\"left\": 10, \"top\": 20, \"width\": 10, \"height\": 5, \"color\": 16711680}"
 ```
 
 Or to render your art
 ```bash
-call.bat render_art "{}"
+win\call.bat render_art "{}"
 ```
 
 ## Part 4 - Test in Prod
@@ -427,12 +427,12 @@ The next step is to use it with the real app.
 
 Your current contract doesn't actually issue cross-contract calls to berry club, so you need to re-compile it with a compilation feature.
 ```bash
-build_for_real.bat
+win\build_for_real.bat
 ```
 
 Now redeploy your contract
 ```bash
-deploy.bat
+win\deploy.bat
 ```
 
 Game on.
@@ -442,7 +442,7 @@ Game on.
 The first thing we'll need is to buy some avocados to draw in the berry club.
 Your contract has a helper method `buy_avocado` to do this.
 ```bash
-call.bat buy_avocado "{}"
+win\call.bat buy_avocado "{}"
 ```
 
 You should see a log message like this:
@@ -464,7 +464,7 @@ Keep this tab open.
 ### Let's render your art
 
 ```bash
-call.bat render_art "{}"
+win\call.bat render_art "{}"
 ```
 
 You should see it rendered on the board in the browser.
@@ -473,7 +473,7 @@ If you hover over your account ID in the list, it will highlight your pixels.
 
 ### Iterate
 
-Now try drawing other primitives by using `call.bat`
+Now try drawing other primitives by using `win\call.bat`
 
 Remember, if you modify the code, then you need to recompile and redeploy the contract.
 
