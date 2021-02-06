@@ -6,7 +6,7 @@
 
 ### Установка
 
-Описанный процесс походит для систем Unix, например Linux или Mac OS. Процесс установки для Windows описан тут [`README_Windows.md`](./README_Windows.md).
+Описанный процесс походит для систем Unix, например Linux или Mac OS. Процесс установки для Windows описан тут [`README_Windows.md`](./README_Windows.md)
  (на английском).
 
 #### Установить [Rustup](https://rustup.rs/):
