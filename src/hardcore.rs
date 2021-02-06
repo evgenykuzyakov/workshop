@@ -78,7 +78,7 @@ trait BerryclubContract {
 pub(crate) fn draw(pixels: Vec<SetPixelRequest>) -> Promise {
     let mut board = [[b'.'; BOARD_WIDTH as usize]; BOARD_HEIGHT as usize];
     let mut unique_pixels = vec![];
-    for pixel in pixels {
+    for pixel in pixels.into_iter().rev() {
         if board[pixel.y as usize][pixel.x as usize] == b'.' {
             board[pixel.y as usize][pixel.x as usize] = b'X';
             unique_pixels.push(pixel);
