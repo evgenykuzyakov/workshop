@@ -6,7 +6,7 @@ This is a workshop to cover basics of NEAR Protocol smart-contracts written in R
 
 ### Install required tools
 
-NOTE: This process is for Unix-like system, e.g. Linux or Mac OS. Windows installation process is different and covered in [README_Windows.md](`./README_Windows.md`).
+NOTE: This process is for Unix-like system, e.g. Linux or Mac OS. Windows installation process is different and covered in [`README_Windows.md`](./README_Windows.md).
 
 #### Install [Rustup](https://rustup.rs/):
 
