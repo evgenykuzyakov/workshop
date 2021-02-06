@@ -4,16 +4,13 @@ This is a workshop to cover basics of NEAR Protocol smart-contracts written in R
 
 ## Preparation
 
+**Note**: after installing each of these steps, you may need to close the Command Prompt and reopen it for changes to take effect.
+
 ### Install required tools
 
-NOTE: This process is for Unix-like system, e.g. Linux or Mac OS. Windows installation process is different and covered in [`README_Windows.md`](./README_Windows.md).
+NOTE: This process is Windows. For other OSes please see `README.md`.
 
-#### Install [Rustup](https://rustup.rs/):
-
-```bash
-curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
-source ~/.cargo/env
-```
+#### Install [Rust and rustup](https://forge.rust-lang.org/infra/other-installation-methods.html#other-ways-to-install-rustup):
 
 #### Add wasm target to your toolchain:
 
@@ -21,13 +18,19 @@ source ~/.cargo/env
 rustup target add wasm32-unknown-unknown
 ```
 
+You will also need a [Windows-specific download](https://visualstudio.microsoft.com/thank-you-downloading-visual-studio/?sku=BuildTools&rel=16), then open it and install the C++ packages:
+
+![Choose C++](./assets/vsbuild.png)
+
 #### Install `near-cli`
+
+Note: you'll need [to install NodeJS](https://nodejs.org/en/download).
 
 See [`near-cli` installation docs](https://docs.near.org/docs/development/near-cli#installation)
 
 #### Install `git`
 
-See [installation guide](https://github.com/git-guides/install-git) from github.
+See [installation guide](https://github.com/git-guides/install-git#install-git-on-windows) from GitHub.
 
 ### Prepare workshop repo and verify tools installation
 
@@ -43,10 +46,10 @@ It should clone the repository to a local folder `workshop`.
 #### Compile the contract
 
 ```bash
-./build.sh
+win\build.bat
 ```
 
-If you have successfully installed Rust and `wasm32` target, then `./build.sh` should compile the contract into `res/berry_bot.wasm`.
+If you have successfully installed Rust and `wasm32` target, then the `cargo build…` command should compile the contract into `res/berry_bot.wasm`.
 ```
    Compiling autocfg v1.0.0
    Compiling proc-macro2 v1.0.9
@@ -61,10 +64,16 @@ If you have successfully installed Rust and `wasm32` target, then `./build.sh` s
 #### You can check that the contract is present in `res/berry_bot.wasm`
 
 ```bash
-test res/berry_bot.wasm && echo "OK" || echo "BAD :("
+dir res
 ```
 
-I hope you see `OK`
+I hope you see:
+
+```shell
+…
+05/02/2021  01:55 PM           148,112 berry_bot.wasm
+…
+```
 
 ### Setup NEAR account
 
@@ -99,7 +108,7 @@ To help with this workshop let's store your account ID into `ACCOUNT_ID` variabl
 Replace `<YOUR_ACCOUNT_ID>` with your actual account ID that you created in the wallet, e.g. `alice.testnet`.
 
 ```bash
-export ACCOUNT_ID=<YOUR_ACCOUNT_ID>
+set ACCOUNT_ID=<YOUR_ACCOUNT_ID>
 ```
 
 #### Verification
@@ -108,7 +117,7 @@ Let's verify that you've successfully created the account and added it to `near-
 
 Run the following:
 ```bash
-near call --accountId=$ACCOUNT_ID workshop.testnet hello
+near call --accountId=%ACCOUNT_ID% workshop.testnet hello
 ```
 
 If it succeeded then you've successfully completed your account setup. You should see something like this:
@@ -131,7 +140,7 @@ Good thing, that I've added unit tests before I broke the code.
 
 Run unit tests
 ```bash
-./test.sh
+win\test.bat
 ```
 
 You'll see a failed test. E.g.
@@ -213,7 +222,7 @@ To do this, you can use rectangle and circle primitives and later merge them int
 
 Run
 ```bash
-./draw_art.sh
+win\draw_art.bat
 ```
 
 You should see a preview of the art. Right now it renders a target with three circles.
@@ -274,7 +283,7 @@ test art::tests::draw_art ... ok
 
 Now, open file `src/art.rs` and modify the implementation of method `internal_render_art` at line `26`.
 
-You can draw whatever you want and debug it using `./draw_art.sh`.
+You can draw whatever you want and debug it by running `win\draw_art.bat`.
 But note, that too many pixels might lead to performance issues.
 
 Once you are satisfied with your art preview, it's time to try it for real.
@@ -285,7 +294,7 @@ Once you are satisfied with your art preview, it's time to try it for real.
 
 You've modified the code to fix tests and implemented your art, so we need to rebuild.
 ```bash
-./build.sh
+win\build.bat
 ```
 
 Every time you modify code of your contract you may want to recompile the contract.
@@ -298,10 +307,10 @@ But a new transaction can only be initiated by signing this transaction with an 
 A transaction may call a method on the contract by name and pass arguments.
 
 To deploy a contract, we need to issue a transaction.
-I wrote a convenient script to deploy the contract to your account stored in `$ACCOUNT_ID`.
-(All it does is `near deploy $ACCOUNT_ID res/berry_bot.wasm`)
+I wrote a convenient script to deploy the contract to your account stored in `%ACCOUNT_ID%`.
+(All it does is `near deploy %ACCOUNT_ID% res\berry_bot.wasm`)
 ```bash
-./deploy.sh
+win\deploy.bat
 ```
 
 You should see something like this:
@@ -321,17 +330,15 @@ Every time you've modified the code and want to change the contract on-chain you
 
 To call `<METHOD_NAME>` on your contract with arguments `<ARGS>` issue the following command:
 ```bash
-near call $ACCOUNT_ID --accountId=$ACCOUNT_ID --gas=300000000000000 <METHOD_NAME> <ARGS>
+near call %ACCOUNT_ID% --accountId=%ACCOUNT_ID% --gas=300000000000000 <METHOD_NAME> <ARGS>
 ```
 
 * `<METHOD_NAME>` is a public method name that you want to call from the contract
-* `<ARGS>` are JSON encoded arguments to the method, e.g. `'{"left": 10, "top": 20, "width": 10, "height": 5, "color": 16711680}'`
-
-Since bash needs to keep JSON in one string, we recommend to wrap args with `'` when passing it, e.g. `'{}'` 
+* `<ARGS>` are JSON encoded arguments to the method, e.g. `"{\"left\": 10, \"top\": 20, \"width\": 10, \"height\": 5, \"color\": 16711680}"`
 
 For example to draw you art, you need to call the following:
 ```bash
-near call $ACCOUNT_ID --accountId=$ACCOUNT_ID --gas=300000000000000 render_art '{}'
+near call %ACCOUNT_ID% --accountId=%ACCOUNT_ID% --gas=300000000000000 render_art "{}"
 ```
 
 If everything works well, then you should see your art rendered in logs, e.g.:
@@ -396,19 +403,19 @@ https://explorer.testnet.near.org/transactions/ZWv4Ac2Qqvs8cA1CT1AHE6ovNXUGT7SCu
 
 You can also click the explorer link to see this on chain, e.g [Target](https://explorer.testnet.near.org/transactions/ZWv4Ac2Qqvs8cA1CT1AHE6ovNXUGT7SCuLiDQFmSqv3)
 
-There is a helper script that let you call methods on your contract easier `./call.sh`.
+There is a helper script that let you call methods on your contract easier `win\call.bat`.
 ```bash
-./call.sh <METHOD_NAME> <ARGS>
+win\call.bat <METHOD_NAME> <ARGS>
 ```
 
 An example of a command to render a red rectangle
 ```bash
-./call.sh render_rect '{"left": 10, "top": 20, "width": 10, "height": 5, "color": 16711680}'
+win\call.bat render_rect "{\"left\": 10, \"top\": 20, \"width\": 10, \"height\": 5, \"color\": 16711680}"
 ```
 
 Or to render your art
 ```bash
-./call.sh render_art '{}'
+win\call.bat render_art "{}"
 ```
 
 ## Part 4 - Test in Prod
@@ -420,12 +427,12 @@ The next step is to use it with the real app.
 
 Your current contract doesn't actually issue cross-contract calls to berry club, so you need to re-compile it with a compilation feature.
 ```bash
-./build_for_real.sh
+win\build_for_real.bat
 ```
 
 Now redeploy your contract
 ```bash
-./deploy.sh
+win\deploy.bat
 ```
 
 Game on.
@@ -435,7 +442,7 @@ Game on.
 The first thing we'll need is to buy some avocados to draw in the berry club.
 Your contract has a helper method `buy_avocado` to do this.
 ```bash
-./call.sh buy_avocado '{}'
+win\call.bat buy_avocado "{}"
 ```
 
 You should see a log message like this:
@@ -457,7 +464,7 @@ Keep this tab open.
 ### Let's render your art
 
 ```bash
-./call.sh render_art '{}'
+win\call.bat render_art "{}"
 ```
 
 You should see it rendered on the board in the browser.
@@ -466,7 +473,7 @@ If you hover over your account ID in the list, it will highlight your pixels.
 
 ### Iterate
 
-Now try drawing other primitives by using `./call.sh`
+Now try drawing other primitives by using `win\call.bat`
 
 Remember, if you modify the code, then you need to recompile and redeploy the contract.
 
