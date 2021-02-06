@@ -1,0 +1,1 @@
+cargo test art::tests::draw_art -- --exact --nocapture
