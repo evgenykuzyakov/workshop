@@ -2,6 +2,13 @@
 
 На этом семинаре вы познакомитесь с основами разработки смарт-контрактов на языке Rust для NEAR Protocol.
 
+## Тех-поддержка
+
+* Телеграм РУС: [https://t.me/near_protocol](https://t.me/near_protocol)
+* Телеграм ENG: [https://t.me/neardev](https://t.me/neardev)
+* Discord [https://near.chat](https://near.chat)
+* Документация ENG: [https://docs.near.org/](https://docs.near.org/)
+
 ## Подготовка
 
 ### Установка

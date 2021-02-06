@@ -2,6 +2,12 @@
 
 This is a workshop to cover basics of NEAR Protocol smart-contracts written in Rust.
 
+## Support
+
+* Telegram: [https://t.me/neardev](https://t.me/neardev)
+* Discord [https://near.chat](https://near.chat)
+* Docs: [https://docs.near.org/](https://docs.near.org/)
+
 ## Preparation
 
 ### Install required tools
