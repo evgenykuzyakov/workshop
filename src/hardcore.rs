@@ -12,7 +12,7 @@ use near_sdk::{env, ext_contract, Balance, Gas};
 
 pub type AccountIndex = u32;
 
-pub const BERRYCLUB_CONTRACT_ID: &str = "berryclub.testnet";
+pub const BERRYCLUB_CONTRACT_ID: &str = "berryclub.ncd.testnet";
 
 pub const NO_DEPOSIT: Balance = 0;
 
